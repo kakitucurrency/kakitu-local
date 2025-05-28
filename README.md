@@ -113,7 +113,63 @@ Kakitu uses a custom Docker image based on Ubuntu 22.04 for GLIBC compatibility.
 kakitucurrency/kakitu-node:latest
 ```
 
+## Simple Multi-Node Setup
+
+If you're having issues with the `nl_run.py` approach or want a simpler setup, you can use the multi-node bash script:
+
+```bash
+chmod +x multi_node_setup.sh
+./multi_node_setup.sh
+```
+
+This will set up three nodes in a Docker network:
+- Genesis node: accessible at 127.0.0.1:45000
+- Node 1: accessible at 127.0.0.1:45001  
+- Node 2: accessible at 127.0.0.1:45002
+
+### Testing the Multi-Node Network
+
+To verify the network is running:
+
+```bash
+# Check if nodes are running
+docker ps | grep kakitu
+
+# Check node processes
+docker exec kakitu_genesis ps aux | grep kakitu
+
+# Test node connectivity
+docker exec kakitu_node1 ping -c 3 kakitu_genesis
+docker exec kakitu_node2 ping -c 3 kakitu_genesis
+```
+
+### Stopping the Multi-Node Network
+
+```bash
+# Stop all nodes
+docker stop kakitu_genesis kakitu_node1 kakitu_node2
+
+# Remove containers and volumes if needed
+docker rm kakitu_genesis kakitu_node1 kakitu_node2
+docker volume rm kakitu_genesis_data kakitu_node1_data kakitu_node2_data
+docker network rm kakitu_network
+```
+
+### Alternative Single-Node Setup
+
+If you just need one node for testing:
+
+```bash
+chmod +x simple_kakitu_node.sh
+./simple_kakitu_node.sh
+```
+
+This will create one node with both node and RPC service running.
+
+### Manual Node Setup
+
 To run a single Kakitu node manually:
+
 ```
 docker run -d --name kakitu_node -p 45000:17076 -p 44000:17075 -p 47000:17078 -v kakitu_data:/home/nanocurrency/KakituDev kakitucurrency/kakitu-node:latest kakitu_node --daemon --network=dev --data_path=/home/nanocurrency/KakituDev
 ```
