@@ -1,16 +1,19 @@
-# nano-local
+# kakitu-local
 
-This project aims to easily spin up custom [nano-currency](https://nano.org) network on your local computer.
-The default config spins up a network 4 node : 1 genesis and 3 voting nodes of which each holds 33.3% of the total vote weight.
-Each node comes with their rpc and websocket endpoint enabled.
+This project aims to easily spin up a custom [Kakitu](https://github.com/kakitucurrency/kakitu-node) cryptocurrency network on your local computer.
+Kakitu is based on [Nano](https://nano.org) but uses the address prefix "kshs_" instead of "nano_".
 
-All configuration is done inside the config file :  `nanolocal/nl_config.toml`
-Many additional services can be enabled : 
-- nanolooker
-- nanoNodeMonitor
-- nano-vote-visualizer
-- nanoticker
-A test-suite with some basic network- and block propagation checks can be run after having initialised the network.
+The default config spins up a network with 4 nodes: 1 genesis and 3 voting nodes, each holding 33.3% of the total vote weight.
+Each node comes with RPC and websocket endpoints enabled.
+
+All configuration is done inside the config file: `nanolocal/nl_config.toml`
+Many additional services can be enabled: 
+- nanolooker (compatible with Kakitu)
+- nanoNodeMonitor (compatible with Kakitu)
+- nano-vote-visualizer (compatible with Kakitu)
+- nanoticker (compatible with Kakitu)
+
+A test-suite with basic network and block propagation checks can be run after initializing the network.
 
 
 ## prerequisites 
@@ -25,37 +28,37 @@ A test-suite with some basic network- and block propagation checks can be run af
 
 <code>$ ./setup_python_venv.sh</code>
 
-#### Spin up a network :
+#### Spin up a Kakitu network :
 
 | Action            | Code                                          | Description  |
 | :----------       |:--------------------------------------------- | -----|
 | create            |<code>$ ./nl_run.py create</code>      | Create folders and node config |
-| start             |<code>$ ./nl_run.py start</code>       | Start all nodes and services (optional flag <code>--build = true</code> rebuilds docker containers)|
-| init              |<code>$ ./nl_run.py init</code>        | Create Epochs Canary Burn and Vote weight distribution |
-| test              |<code>$ ./nl_run.py test</code>        | runs tests from <code>[testcase]</code> section of <code>nl_config.toml</code>  |
-| pytest            |<code>$ ./nl_run.py pytest</code>      | runs tests from <code>[testcase]</code> section of <code>nl_config.toml</code> |
+| start             |<code>$ ./nl_run.py start</code>       | Start all nodes and services (optional flag <code>--build=true</code> rebuilds docker containers)|
+| init              |<code>$ ./nl_run.py init</code>        | Create Epochs, Canary Burn and Vote weight distribution |
+| test              |<code>$ ./nl_run.py test</code>        | Runs tests from <code>[testcase]</code> section of <code>nl_config.toml</code>  |
+| pytest            |<code>$ ./nl_run.py pytest</code>      | Runs tests from <code>[testcase]</code> section of <code>nl_config.toml</code> |
 | stop              |<code>$ ./nl_run.py stop</code>        | Stop all nodes and services |
 | stop_nodes        |<code>$ ./nl_run.py stop_nodes</code>  | Stop nodes only |
 | restart           |<code>$ ./nl_run.py restart</code>     | Restart nodes only  |
 | restart_wait_sync |<code>$ ./nl_run.py restart_wait_sync</code>    | Restart nodes until 100% of blocks are confirmed  |
 | reset             |<code>$ ./nl_run.py reset</code>       | Delete all blocks except genesis block by removing data.ldb from all nodes |
-| destroy           |<code>$ ./nl_run.py destroy</code>     | Remove all nodes and delte virtaul environment |
+| destroy           |<code>$ ./nl_run.py destroy</code>     | Remove all nodes and delete virtual environment |
 
 ####  Query nodes :
 
-Each node can be queried via RPC (see the [official documentation](https://docs.nano.org/commands/rpc-protocol/) )
+Each node can be queried via RPC (the Kakitu RPC protocol is compatible with [Nano's RPC protocol](https://docs.nano.org/commands/rpc-protocol/))
 
 | Node          | RPC                        | Websocket  |
 | :----------   |:-------------------------- | -----------------------|
-| nl_genesis    |http://127.0.0.1:45000      | ws://127.0.0.1:47000 |
-| nl_pr1        |http://127.0.0.1:45001      | ws://127.0.0.1:47001 |
-| nl_pr2        |http://127.0.0.1:45002      | ws://127.0.0.1:47002 |
-| nl_pr3        |http://127.0.0.1:45003      | ws://127.0.0.1:47003 |
+| kl_genesis    |http://127.0.0.1:45000      | ws://127.0.0.1:47000 |
+| kl_pr1        |http://127.0.0.1:45001      | ws://127.0.0.1:47001 |
+| kl_pr2        |http://127.0.0.1:45002      | ws://127.0.0.1:47002 |
+| kl_pr3        |http://127.0.0.1:45003      | ws://127.0.0.1:47003 |
 
 
 #### Optional : Configure the network :
 
-<code>nl_config.toml</code> define all aspects of the network : genesis account, burn_amount, number of nodes, versions,...
+<code>nl_config.toml</code> defines all aspects of the network: genesis account, burn_amount, number of nodes, versions, etc.
 
 You can enable various services :
 
@@ -91,5 +94,33 @@ All tests are configured in the <code>[testcase]</code> section of <code>nl_conf
 #### Optional : Delete virtual python environment
 To remove your virtual python environment 
 <code>$ ./setup_venv.sh delete</code>
+
+## Kakitu Specific Information
+
+### Address Format
+Kakitu uses the address prefix "kshs_" instead of "nano_" but maintains backward compatibility with "xrb_" addresses. All addresses generated by the Kakitu node will have the "kshs_" prefix.
+
+Example:
+```
+Private: 13EF4788603F0BF38D9F864964B269026B3367FC115D96527DC353D0A45C3D59
+Public: 66192AC2D31CABE1F4132DBEA699725BD083510D5175956763FF42C27BCD5E04
+Account: kshs_1sis7d3f897dw9t38dfynteq6pyiifaitndokomp9zt4rbxwtqi6br86zo6w
+```
+
+### Docker Image
+Kakitu uses a custom Docker image based on Ubuntu 22.04 for GLIBC compatibility. The Docker image is available at:
+```
+kakitucurrency/kakitu-node:latest
+```
+
+To run a single Kakitu node manually:
+```
+docker run -d --name kakitu_node -p 45000:17076 -p 44000:17075 -p 47000:17078 -v kakitu_data:/home/nanocurrency/KakituDev kakitucurrency/kakitu-node:latest kakitu_node --daemon --network=dev --data_path=/home/nanocurrency/KakituDev
+```
+
+To start the RPC service inside a running container:
+```
+docker exec -d kakitu_node kakitu_rpc --daemon --network=dev --data_path=/home/nanocurrency/KakituDev
+```
 
 
