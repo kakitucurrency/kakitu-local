@@ -1,0 +1,10 @@
+tomli==2.0.1
+tomli-w
+requests
+oyaml
+ed25519-blake2b
+gmpy2
+aiohttp
+pytest 
+pytest-html
+extradict

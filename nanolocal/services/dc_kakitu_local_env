@@ -1,0 +1,3 @@
+# Kakitu Local Network Environment Variables
+KAKITU_NETWORK=dev
+KAKITU_LOG_LEVEL=info

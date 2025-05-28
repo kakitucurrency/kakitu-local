@@ -9,10 +9,18 @@ import json
 import copy
 from datetime import datetime
 from math import ceil
-from nanolib import Block
+try:
+    from nanolib import Block
+except ImportError:
+    # Create a simple Block class placeholder for basic functionality
+    class Block:
+        def __init__(self, **kwargs):
+            for key, value in kwargs.items():
+                setattr(self, key, value)
 from extradict import NestedData
 
-from nanolocal.common.nl_nanolib import NanoLibTools, raw_high_precision_multiply
+from nanolocal.common.nl_nanolib_kakitu import NanoLibTools
+from nanolocal.common.kakitu_lib import raw_high_precision_multiply
 from nanolocal.common.nl_rpc import NanoRpc
 
 _default_path = "nanolocal"

@@ -13,7 +13,7 @@ from nanolocal.common.nl_parse_config import ConfigParser
 from nanolocal.common.nl_parse_config import ConfigReadWrite
 from nanolocal.common.nl_initialise import InitialBlocks
 from nanolocal.common.nl_block_tools import BlockAsserts
-from nanolocal.common.nl_nanolib import NanoLibTools
+from nanolocal.common.nl_nanolib_kakitu import NanoLibTools
 from nanolocal.common.nl_rpc import NanoRpc
 
 # * create (this will create the one time resources that need creating)

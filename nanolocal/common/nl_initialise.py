@@ -1,5 +1,5 @@
 from nanolocal.common.nl_rpc import NanoRpc
-from nanolocal.common.nl_nanolib import raw_high_precision_percent
+from nanolocal.common.kakitu_lib import raw_high_precision_percent
 from nanolocal.common.nl_parse_config import ConfigParser
 import logging
 

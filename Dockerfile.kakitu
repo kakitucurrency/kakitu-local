@@ -1,0 +1,35 @@
+FROM ubuntu:20.04
+
+# Avoid interactive prompts during package installation
+ENV DEBIAN_FRONTEND=noninteractive
+
+# Install required dependencies
+RUN apt-get update && apt-get install -y \
+    libboost-all-dev \
+    liblmdb0 \
+    librocksdb-dev \
+    && rm -rf /var/lib/apt/lists/*
+
+# Create nanocurrency user to match nano-local expectations
+RUN useradd -m -u 1000 nanocurrency
+
+# Copy Kakitu executables (will be provided at build time)
+COPY nano_node /usr/local/bin/kakitu_node
+COPY nano_rpc /usr/local/bin/kakitu_rpc
+
+# Make executables runnable
+RUN chmod +x /usr/local/bin/kakitu_node /usr/local/bin/kakitu_rpc
+
+# Create data directories
+RUN mkdir -p /home/nanocurrency/KakituDev && \
+    chown -R nanocurrency:nanocurrency /home/nanocurrency
+
+# Switch to nanocurrency user
+USER nanocurrency
+WORKDIR /home/nanocurrency
+
+# Expose ports (matching nano-local expectations)
+EXPOSE 17075 17076 17078
+
+# Default command - will be overridden by docker-compose
+CMD ["kakitu_node", "daemon", "--network=dev", "--data_path=/home/nanocurrency/KakituDev", "-l"]

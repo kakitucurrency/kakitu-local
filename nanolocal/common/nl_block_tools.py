@@ -7,7 +7,8 @@ from math import ceil, floor
 
 from nanolocal.common.nl_rpc import NanoRpc
 from nanolocal.common.nl_parse_config import ConfigParser, ConfigReadWrite
-from nanolocal.common.nl_nanolib import NanoLibTools, raw_high_precision_multiply
+from nanolocal.common.nl_nanolib_kakitu import NanoLibTools
+from nanolocal.common.kakitu_lib import raw_high_precision_multiply
 
 _CONFP = ConfigParser()
 

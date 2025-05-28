@@ -7,7 +7,8 @@ import logging
 import asyncio
 import aiohttp
 import threading
-from nanolocal.common.nl_nanolib import NanoLibTools, get_account_public_key
+from nanolocal.common.nl_nanolib_kakitu import NanoLibTools
+from nanolocal.common.kakitu_lib import get_account_public_key
 
 # for block_creation, we store local frontier info, so that subsequant calls know about the most recent frontier without needing to publish the block to the ledger.
 _FRONTIER_INFO = {}

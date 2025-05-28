@@ -1,0 +1,70 @@
+version: '3'
+
+services:
+
+  default_docker:
+    image: kakitucurrency/kakitu-node:latest
+    user: "1000" #if your user is 1000 we can just run the container as is because because nano_docker_images use user 1000 too.
+    container_name: ${default_docker}
+    command: kakitu_node daemon --network=dev --data_path=/home/nanocurrency/KakituDev -l
+    restart: unless-stopped    
+    ports:
+      - 44100:17075
+      - 45100:17076
+      - 47100:17078
+    volumes:
+      - ./${default_docker}:/home/nanocurrency
+    env_file:
+      - ./dc_kakitu_local_env
+    networks:
+      - kakitu-local  
+  
+  default_docker_custom: #if we use traffic control we need to install iproute2 
+    build: 
+      context: ../
+      dockerfile: ./services/custom_Dockerfile
+      args:
+        - NANO_IMAGE=kakitucurrency/kakitu-node:latest
+        - UID=999
+        - TC_ENABLE=FALSE
+    user: "123" #replaced with UID during "create" command
+    container_name: ${default_docker}
+    command: kakitu_node daemon --network=dev --data_path=/home/nanocurrency/KakituDev -l
+    restart: unless-stopped
+    cap_add:
+      - NET_ADMIN
+    ports:
+      - 44100:17075
+      - 45100:17076
+      - 47100:17078
+    volumes:
+      - ./${default_docker}:/home/nanocurrency
+    env_file:
+      - ./dc_kakitu_local_env
+    networks:
+      - kakitu-local
+
+  default_docker_root:
+    image: kakitucurrency/kakitu-node:latest
+    #user: "1" #run without user
+    container_name: ${default_docker}
+    command: kakitu_node daemon --network=dev --data_path=/root/KakituDev -l
+    restart: unless-stopped
+    ports:
+      - 44100:17075
+      - 45100:17076
+      - 47100:17078
+    volumes:
+      - ./${default_docker}:/root
+    env_file:
+      - ./dc_kakitu_local_env
+    networks:
+      - kakitu-local
+
+networks:
+  kakitu-local:
+    name: kakitu-local
+    driver: bridge
+  
+volumes:
+  kl_default_volume : {}

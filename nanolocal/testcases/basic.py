@@ -3,7 +3,7 @@ import unittest
 from nanolocal.common.nl_block_tools import BlockGenerator, BlockAsserts, BlockReadWrite
 from nanolocal.common.nl_rpc import NanoRpc
 from nanolocal.common.nl_parse_config import ConfigParser
-from nanolocal.common.nl_nanolib import raw_high_precision_multiply
+from nanolocal.common.kakitu_lib import raw_high_precision_multiply
 import copy
 
 _CONFP = ConfigParser()
