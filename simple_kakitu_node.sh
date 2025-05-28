@@ -18,14 +18,14 @@ docker run --rm -v kakitu_data:/home/nanocurrency/KakituDev \
   kakitucurrency/kakitu-node:latest \
   kakitu_node --initialize --network=dev --data_path=/home/nanocurrency/KakituDev
 
-# Start the node with bash to keep it running and enable RPC
-echo "Starting Kakitu node with RPC..."
+# Start the node with bash to keep it running
+echo "Starting Kakitu node..."
 docker run -d --name kakitu_node \
   -p 44000:17075 -p 45000:17076 -p 47000:17078 \
   -v kakitu_data:/home/nanocurrency/KakituDev \
   --user nanocurrency \
   kakitucurrency/kakitu-node:latest \
-  /bin/bash -c "kakitu_node --daemon --network=dev --data_path=/home/nanocurrency/KakituDev --rpc.enable=true --rpc.address=::ffff:0.0.0.0 & tail -f /dev/null"
+  /bin/bash -c "kakitu_node --daemon --rpc.enable=true --rpc.address=::ffff:0.0.0.0 --network=dev --data_path=/home/nanocurrency/KakituDev & tail -f /dev/null"
 
 # Wait for the node to start
 echo "Waiting for node to start..."
