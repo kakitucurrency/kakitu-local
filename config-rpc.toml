@@ -1,0 +1,7 @@
+# RPC configuration for Kakitu node
+enable_control = true
+address = "::ffff:0.0.0.0"
+port = 17076
+max_json_depth = 20
+max_request_size = 33554432
+cors_allow_all = true

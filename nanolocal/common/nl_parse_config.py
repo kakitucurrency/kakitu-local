@@ -12,11 +12,8 @@ from math import ceil
 try:
     from nanolib import Block
 except ImportError:
-    # Create a simple Block class placeholder for basic functionality
-    class Block:
-        def __init__(self, **kwargs):
-            for key, value in kwargs.items():
-                setattr(self, key, value)
+    # Use our custom Block implementation
+    from nanolocal.common.block import Block
 from extradict import NestedData
 
 from nanolocal.common.nl_nanolib_kakitu import NanoLibTools

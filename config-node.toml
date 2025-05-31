@@ -1,0 +1,24 @@
+# Node configuration for Kakitu
+[node]
+# Logging
+logging.log_to_cerr = true
+logging.max_size = 134217728
+logging.rotation_size = 4194304
+logging.flush = true
+
+# RPC
+enable_control = true
+
+# Node identity
+peering_port = 17075
+
+# Enable WebSocket server
+websocket.enable = true
+websocket.address = "::ffff:0.0.0.0"
+websocket.port = 17078
+
+# Enable IPC -> TCP for RPC service
+rpc_enable = true
+ipc.tcp_server_enabled = true
+ipc.tcp_server_port = 17076
+ipc.tcp_server_address = "::ffff:0.0.0.0"
